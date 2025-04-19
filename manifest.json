@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Cmd+Enter",
+  "version": "1.0.0",
+  "description": "Send messages in ChatGPT using Cmd+Enter instead of Enter",
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*"
+      ],
+      "js": ["content.js"]
+    }
+  ]
+}
