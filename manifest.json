@@ -4,6 +4,11 @@
   "version": "1.0.0",
   "description": "Send messages in ChatGPT using Cmd+Enter instead of Enter",
   "permissions": ["activeTab"],
+  "icons": {
+    "128": "icon/icon_128.png",
+    "48": "icon/icon_48.png",
+    "16": "icon/icon_16.png"
+  },
   "content_scripts": [
     {
       "matches": [
