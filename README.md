@@ -12,7 +12,24 @@ This project is hugely inspired by <https://github.com/masachika-kamada/ChatGPT-
 4. Click "Load unpacked" and select the extension directory
 5. Visit [chatgpt.com](https://chatgpt.com) and try sending messages with Cmd+Enter
 
+After updating the extension, click its reload button in `chrome://extensions/`
+and refresh any open ChatGPT tabs.
+
 ## Features
 
-- Prevents sending messages with just Enter
-- Sends messages using Cmd+Enter (⌘+Enter on Mac)
+- Inserts a newline with Enter or Shift+Enter
+- Sends messages using Cmd+Enter (Mac) or Ctrl+Enter (Windows/Linux)
+- Supports the current ChatGPT composer and the older `prompt-textarea` editor
+- Leaves IME composition confirmation unchanged
+
+## Tests
+
+```sh
+npm ci
+npx playwright install chromium
+npm test
+```
+
+Playwright loads the unpacked extension in Chromium and tests keyboard behavior
+against local fixtures for both composer versions. Tests do not send messages to
+ChatGPT or require an account.

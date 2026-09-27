@@ -1,6 +1,12 @@
 (function () {
   function handleChatGPT(ev) {
-    if (ev.target.id != "prompt-textarea") return;
+    if (ev.isComposing || ev.keyCode === 229 || ev.defaultPrevented) return;
+
+    // The September 2026 composer has no prompt-textarea id.
+    const composer = ev.target.closest?.(
+      "#prompt-textarea, [data-composer-markdown]"
+    );
+    if (!composer) return;
 
     const isEnter        = ev.key === "Enter";
     const cmdOrCtrl      = ev.metaKey || ev.ctrlKey;
@@ -11,9 +17,11 @@
       ev.preventDefault();
       ev.stopImmediatePropagation();
 
-      ev.target
+      composer
         .closest("form")
-        ?.querySelector('[data-testid="send-button"]')
+        ?.querySelector(
+          'button[data-testid="send-button"]:not(:disabled), button[type="submit"]:not(:disabled)'
+        )
         ?.click();
     }
 
@@ -31,18 +39,10 @@
           composed: true,
           shiftKey: true,
       });
-      ev.target.dispatchEvent(newlineEvent);
+      composer.dispatchEvent(newlineEvent);
     }
   }
 
-  document.addEventListener(
-    "keydown",
-    (ev) => {
-      const url = window.location.href;
-      if (url.includes("chatgpt.com")) {
-        handleChatGPT(ev);
-      }
-    },
-    true // capture phase
-  );
+  // Intercept before ChatGPT's own window capture shortcuts.
+  window.addEventListener("keydown", handleChatGPT, true);
 })();
